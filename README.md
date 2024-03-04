@@ -1,2 +1,2 @@
-# Geocoder1
+# geospatial programming course
 geocoder assignment
