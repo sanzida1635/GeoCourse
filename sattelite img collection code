@@ -1,6 +1,6 @@
 
 
-         https://code.earthengine.google.com/b37c5e671cf6a713dc1b0535a3bfdeb8
+         https://code.earthengine.google.com/87f7775ce9c5bcf53a26a40301e2bc7c
 
 
 var dataset = ee.ImageCollection ("COPERNICUS/S2_SR_HARMONIZED")
@@ -30,7 +30,7 @@ var dataset = ee.ImageCollection ("COPERNICUS/S2_SR_HARMONIZED")
 
 
 
-         https://code.earthengine.google.com/b37c5e671cf6a713dc1b0535a3bfdeb8
+         
 
 
 
