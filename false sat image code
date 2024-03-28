@@ -1,0 +1,26 @@
+https://code.earthengine.google.com/b29b2f0597ce832fdb773d8f9a58be96
+
+print(table.first())
+
+var region = table.filter(ee.Filter.eq("ADM3_EN", "Ramu"))
+print (region)
+
+
+Map.centerObject(region)
+Map.addLayer(region,{}, "Ramu")
+
+
+var dataset =ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
+              .filterBounds(region)
+              .filterDate("2023-03-01", "2023-03-20")
+              .select(["B4","B3","B2","B8"])
+              .mean()
+              
+               print(dataset)
+              
+              var vizperams = {
+                min:0,
+                max:2000,
+                bands:["B8","B4","B3"],
+              }
+              Map.addLayer(dataset,vizperams,"FALSE image of Ramu")
