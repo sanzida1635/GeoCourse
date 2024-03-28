@@ -1,0 +1,25 @@
+var dataset = ee.ImageCollection ("COPERNICUS/S2_SR_HARMONIZED")
+           .filterBounds(region)
+           .filter(ee.Filter.date("2023-03-01" , "2023-03-20"))
+           .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE' ,10))
+           
+           print("Image collection", dataset)
+            var id = ee.String(dataset.first().get('system:id'));
+                      print(id)
+           var img =ee.Image("COPERNICUS/S2_SR_HARMONIZED/20230302T042711_20230302T043937_T46QBL")
+
+                      .clip(region)
+                      
+         var capturingDate = ee.Date(img.get("system:time_start"));
+         print("Capturing Date: " ,capturingDate);
+         var formattedDate =capturingDate.format("YYYY-MM-dd");
+         print("Formatted Capturing Date: " ,formattedDate);
+
+
+
+
+         https://code.earthengine.google.com/b37c5e671cf6a713dc1b0535a3bfdeb8
+
+
+
+         
