@@ -1,6 +1,7 @@
 
 
          https://code.earthengine.google.com/87f7775ce9c5bcf53a26a40301e2bc7c
+https://code.earthengine.google.com/79bac8192e1bea48ce73a6e6e249ecdc
 
 
 var dataset = ee.ImageCollection ("COPERNICUS/S2_SR_HARMONIZED")
