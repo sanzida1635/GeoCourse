@@ -1,0 +1,37 @@
+https://code.earthengine.google.com/755358e3646fd297853ab7896df26bad
+
+var dataset =  ee.ImageCollection('LANDSAT/LC09/C02/T1_L2')
+             .filterBounds(region)
+    .filterDate('2022-01-01', '2022-02-01')
+     .filter(ee.Filter.lt("CLOUD_COVER_LAND",10))
+     .first()
+Map.addLayer(dataset.clip(region))
+print(dataset)
+
+var band4 =dataset.select("SR_B4")
+print(band4)
+var band3 =dataset.select("SR_B3")
+print(band3)
+var ndvi =band4.subtract(band3).divide(band4.add(band3));
+print(ndvi)
+
+var ndvi = dataset.normalizedDifference(["SR_B3","SR_B4"]).rename("NDVI")
+print(ndvi,"ndvi image")
+Map.addLayer(ndvi.clip(region),{},"NDVI image")
+
+var vizParam= {
+  min:-0.02,
+  max: 0.01,
+  palette: ["blue","green","red","yellow","cyan"]
+}
+Map.addLayer(ndvi.clip(region),vizParam,"NDVI image")
+
+
+var result= ndvi.reduceRegion({
+  reducer:ee.Reducer.minMax(),
+  geometry: region,
+  scale: 10,
+  bestEffort:true
+  
+})
+print(result)
