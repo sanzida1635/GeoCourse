@@ -1,0 +1,29 @@
+https://code.earthengine.google.com/1816d56daf7f7dbc01e3bed7aa4beb7c
+
+
+var dataset =  ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
+             .filterBounds(region)
+    .filterDate('2023-01-01', '2023-01-30')
+     .filter(ee.Filter.lt("WATER_PERCENTAGE",10))
+     .first()
+Map.addLayer(dataset.clip(region))
+print(dataset)
+
+var band3 =dataset.select("B3")
+print(band3)
+var band8 =dataset.select("B8")
+print(band8)
+var ndwi =band3.subtract(band8).divide(band3.add(band8));
+print(ndwi)
+
+var ndwi = dataset.normalizedDifference(["B3","B8"]).rename("NDWI")
+print(ndwi,"ndwi image")
+Map.addLayer(ndwi.clip(region),{},"NDWI image")
+
+
+var vizParam= {
+  min:-1,
+  max: 1,
+  palette: ["blue","green","yellow","cyan"]
+}
+Map.addLayer(ndwi.clip(region),vizParam,"NDWI image")
