@@ -1,0 +1,59 @@
+https://code.earthengine.google.com/7e969def897d36894f85a1975b1233d2
+
+
+
+var image = ee.ImageCollection('LANDSAT/LC09/C02/T1_L2')
+    .filterDate('2022-01-01', '2022-12-31')
+    .filterMetadata('CLOUD_COVER','less_than' , 10)
+     .filterBounds(region)
+     .min()
+     .clip(region);
+     print(image)
+     var ndvi = image.normalizedDifference(["SR_B5" , "SR_B4"]).rename("NDVI")
+     
+   var bareLand = (ndvi.lt(0.1)).selfMask() 
+var lowVegetation = (ndvi.gte(0.1)).and (ndvi.lt(0.5)).selfMask() 
+var highVegetation =(ndvi.gte(0.5)).selfMask()
+  
+  Map.addLayer(bareLand,{},"masked ndvi")
+   Map.addLayer(lowVegetation,{}, "masked lowVegetation")
+   Map.addLayer(highVegetation,{}, "masked highVegetation")
+   
+      // var maskNdvi =ndvi.gt(0.1).selfMask()
+      // Map.addLayer(maskNdvi,{},"masked ndvi")
+      
+      var areaBareLand = bareLand.multiply(ee.Image.pixelArea()).reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: region,
+  scale: 30,
+  maxPixels: 1e9
+});
+
+var areaLowVegetation = lowVegetation.multiply(ee.Image.pixelArea()).reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: region,
+  scale: 30,
+  maxPixels: 1e9
+});
+
+var areaHighVegetation = highVegetation.multiply(ee.Image.pixelArea()).reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: region,
+  scale: 30,
+  maxPixels: 1e9
+});
+
+print('Area of Bare Land (in square meters):', areaBareLand.get('NDVI'));
+print('Area of Low Vegetation (in square meters):', areaLowVegetation.get('NDVI'));
+print('Area of High Vegetation (in square meters):', areaHighVegetation.get('NDVI'));
+      
+      
+       Export.image.toDrive({
+        description:"NDVI image",
+        image:ndvi,
+        scale: 10
+      })
+      Map.addLayer(image)
+      Map.addLayer(ndvi)
+      
+     
