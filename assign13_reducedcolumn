@@ -1,0 +1,14 @@
+https://code.earthengine.google.com/bd974a5e3c59b81ae60abd510bae226a
+
+
+print(table)
+
+
+var columnRed =table.reduceColumns({
+  selectors:["F_80Plus", "M_80Plus","T_80Plus" ,"ADM1_NAME"],
+  reducer:ee.Reducer.sum().repeat(3).group({
+    groupField: 3,
+    groupName: "Division"
+  })
+})
+print(columnRed)
