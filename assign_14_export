@@ -1,0 +1,9 @@
+https://code.earthengine.google.com/600f84bf467ccd4b8f465a8ded0abfb2
+
+
+Export.table.toDrive({
+  collection: FeatureCollection,
+  description: "waterbody_FeatureCollection_export_assignment14",
+  fileFormat: 'CSV', 
+  folder: "ASSIGNMENT_14",
+});
