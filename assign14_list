@@ -1,0 +1,11 @@
+https://code.earthengine.google.com/600f84bf467ccd4b8f465a8ded0abfb2
+
+
+var list = ee.List([5,10,15,20,25,30]);
+var Featurelist = list.map(function(elements) {
+  return ee.Feature(null, {"value": elements});
+});
+print(list)
+print( Featurelist)
+var featureCollection = ee.FeatureCollection( Featurelist);
+print(featureCollection , "FeatureCollection from list");
